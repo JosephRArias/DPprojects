@@ -4,13 +4,17 @@ public with sharing class AccountHelper {
     }
     public static void updateAccountOnboarding(List<Account> accounts){
         for(Account acc : accounts){
-            if(acc.AnnualRevenue > 500000){
-                acc.Onboarding_Status__c = 'In Progress';
+            
+            if(acc.AnnualRevenue != null){
+                
+                if(acc.AnnualRevenue > 500000){
+                    acc.Onboarding_Status__c = 'In Progress';
+                }
+                else if(acc.AnnualRevenue <= 500000){
+                    acc.Onboarding_Status__c = 'Pending Review';
+                }
+
             }
-            else{
-                acc.Onboarding_Status__c = 'Pending Review';
-            }
-            System.debug('Account Onboarding Status: ' + acc.Onboarding_Status__c);
         }
 
     }

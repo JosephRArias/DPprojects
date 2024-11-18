@@ -38,6 +38,13 @@ private class AccountTest {
         updatedAccount.AnnualRevenue = 700500.00;
         update updatedAccount;
         Account inProgressAccount = [SELECT Name, Id, Onboarding_Status__c FROM Account WHERE Id = :updatedAccount.Id LIMIT 1];
-        System.assertEquals('In Progress', inProgressAccount.Onboarding_Status__c, 'On Boarding Status should be Pending Review');
+        System.assertEquals('In Progress', inProgressAccount.Onboarding_Status__c, 'On Boarding Status should be In Progress');
+    }
+    @isTest
+    static void AnnualRevenueIsNull(){
+        Account acc = new Account(Name='Test Account');
+        insert acc;
+        Account updatedAccount = [SELECT Name, Id, Onboarding_Status__c FROM Account WHERE Id = :acc.Id LIMIT 1];
+        System.assertEquals(null, updatedAccount.Onboarding_Status__c, 'On Boarding Status should be null');
     }
 }
