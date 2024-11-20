@@ -46,5 +46,31 @@ private class ContactTest {
         System.assert(contacts[2].getErrors().isEmpty(), 'Contact should have no error message');
         //Case 4 Assertion
         System.assert(contacts[3].getErrors().isEmpty(), 'Contact should have no error message');
+        Test.stopTest();
+    }
+    @isTest
+    static void testBulkInsert(){
+        List<Contact> contacts = new List<Contact>();
+        for(Integer i = 0; i < 250; i++){
+            contacts.add(new Contact(FirstName='Test', LastName='Contact ' + i, Email='testemail' + i + '@v2sa.com'));
+        }
+        insert contacts;
+        for(Contact contact : contacts){
+            System.assert(contact.getErrors().isEmpty(), 'Contact should have no error message');
+        }
+    }
+    @isTest
+    static void testErrorInsertion(){
+        List<Contact> contacts = new List<Contact>();
+        for(Integer i = 0; i < 250; i++){
+            contacts.add(new Contact(FirstName='Test', LastName='Contact ' + i, Email='testemail' + i + '@example.com'));
+        }
+        try{
+            insert contacts;
+            System.assert(false, 'Insert should have failed due to validation errors.');
+        }
+        catch(System.DmlException e){
+            System.assert(e.getNumDml() == 250, 'All 250 records should have failed.');
+        }
     }
 }
