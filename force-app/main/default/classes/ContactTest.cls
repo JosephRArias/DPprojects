@@ -73,4 +73,16 @@ private class ContactTest {
             System.assert(e.getNumDml() == 250, 'All 250 records should have failed.');
         }
     }
+    @isTest
+    static void EmailIsNull(){
+        List<Contact> contact = new List<Contact> {new Contact(FirstName='Test', LastName='Contact')};
+        try{
+            ContactHelper.verifyProvidedEmail(contact);
+            //Case 1 Assertion
+            System.assert(!contact[0].getErrors().isEmpty(), 'Contact should have no error message');
+            System.assertEquals('Email is null', contact[0].getErrors()[0].getMessage());
+    }catch(Exception e){
+
+    }
+}
 }
