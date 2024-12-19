@@ -8,17 +8,23 @@ public with sharing class ContactHelper {
         Boolean isValid = false;
         Boolean belongsToDomain = false;
         for(Contact contact : contacts){
-            Matcher matcher = pattern.matcher(contact.Email);
-            isValid = matcher.matches();
-            if(isValid){
-                belongsToDomain = verifyEmailDomainIsCorrect(contact.Email);
-                if(!belongsToDomain){
-                    contact.addError('Introduced email does not belong to the v2sa or gmail domain');
+            if(contact.Email != null){
+                Matcher matcher = pattern.matcher(contact.Email);
+                isValid = matcher.matches();
+                if(isValid){
+                    belongsToDomain = verifyEmailDomainIsCorrect(contact.Email);
+                    if(!belongsToDomain){
+                        contact.addError('Introduced email does not belong to the v2sa or gmail domain');
+                    }
+                }
+                else{
+                    contact.addError('Introduced email does not fit email format');
                 }
             }
             else{
-                contact.addError('Introduced email does not fit email format');
+                contact.addError('Email is null');
             }
+
         }
     }
     public static Boolean verifyEmailDomainIsCorrect(String email){
