@@ -94,4 +94,44 @@ private class OpportunityTest {
         Account accountAfterUpdate = [SELECT Latest_Opportunity_Stage__c FROM Account WHERE Id = :testAccount.Id];
         System.assertEquals('Closed Won', accountAfterUpdate.Latest_Opportunity_Stage__c);
     }
+    @isTest
+    static void multipleOpportunitiesMultipleAccounts(){
+        List<Account> testAccounts = new List<Account>();
+        for(Integer i = 0; i<5; i++){
+            testAccounts.add(new Account(Name = 'Test Account ' + i));
+        }
+        List<Opportunity> opportunities = new List<Opportunity>();
+        List<String> stageNames = new List<String>{'Qualification', 'Prospecting', 'Needs Analysis', 'Value Proposition', 'Closed Won'};
+        insert testAccounts;
+
+        for(Integer i = 0; i < 5; i++){                                                                          
+            for(Integer j = 0; j<3; j++){
+                    opportunities.add(new Opportunity(
+                    Name = 'Test Opportunity Insert ' + i,
+                    CloseDate = Date.today(),
+                    AccountId = testAccounts[i].Id,
+                    StageName = stageNames[j]
+                ));
+                
+            }     
+        }
+        insert opportunities;
+
+        for (Integer i = 0; i < testAccounts.size(); i++) {
+            Account account = [SELECT Latest_Opportunity_Stage__c FROM Account WHERE Id = :testAccounts[i].Id];
+            System.assertEquals(stageNames[2], account.Latest_Opportunity_Stage__c);
+        }
+    
+        for (Opportunity opp : opportunities) {
+            if (opp.StageName == 'Closed Won') {
+                opp.StageName = 'Needs Analysis';
+            }
+        }
+        update opportunities;
+    
+        for (Integer i = 0; i < testAccounts.size(); i++) {
+            Account account = [SELECT Latest_Opportunity_Stage__c FROM Account WHERE Id = :testAccounts[i].Id];
+            System.assertEquals('Needs Analysis', account.Latest_Opportunity_Stage__c);
+        }
+    }
 }
