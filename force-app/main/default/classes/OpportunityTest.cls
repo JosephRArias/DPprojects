@@ -69,4 +69,29 @@ private class OpportunityTest {
         Account accountAfterUpdate = [SELECT Latest_Opportunity_Stage__c FROM Account WHERE Id = :testAccount.Id];
         System.assertEquals('Qualification', accountAfterUpdate.Latest_Opportunity_Stage__c);
     }
+    @isTest
+    static void noOpportunityStageUpdate(){
+        Account testAccount = new Account(Name = 'Test Account');
+        List<Opportunity> opportunities = new List<Opportunity>();
+        List<String> stageNames = new List<String>{'Qualification', 'Prospecting', 'Needs Analysis', 'Value Proposition', 'Closed Won'};
+        insert testAccount;
+
+        for(Integer i = 0; i < 5; i++){
+            opportunities.add(new Opportunity(
+                Name = 'Test Opportunity Insert ' + i,
+                CloseDate = Date.today(),
+                AccountId = testAccount.Id,
+                StageName = stageNames[i]
+            ));     
+        }
+        insert opportunities;
+
+        Account accountAfterInsert = [SELECT Latest_Opportunity_Stage__c FROM Account WHERE Id = :testAccount.Id];
+        System.assertEquals(stageNames[4], accountAfterInsert.Latest_Opportunity_Stage__c);
+        opportunities[0].StageName = 'Qualification';
+        update opportunities;
+
+        Account accountAfterUpdate = [SELECT Latest_Opportunity_Stage__c FROM Account WHERE Id = :testAccount.Id];
+        System.assertEquals('Closed Won', accountAfterUpdate.Latest_Opportunity_Stage__c);
+    }
 }
