@@ -47,4 +47,19 @@ private class CaseTest {
         //Assert OwnerId
         System.assertEquals(createdCase.OwnerId, caseRelatedTask.OwnerId);
     }
+    @isTest
+    static void BulkInsert(){
+        List<Case> cases = new List<Case>();
+        Set<Id> caseIds = new Set<Id>();
+        for(Integer i = 0; i < 200; i++){
+            Case c = new Case(Subject = 'Test Case ' + i);
+            cases.add(c);
+        }
+        insert cases;
+        for(Case createdCase : cases){
+            caseIds.add(createdCase.Id);
+        }
+        List<Task> caseRelatedTasks = [SELECT Id, WhatId, Subject, ActivityDate, OwnerId, Priority FROM Task WHERE WhatId IN :caseIds];
+        System.assertEquals(cases.size(), caseRelatedTasks.size());
+    }
 }
