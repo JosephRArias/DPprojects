@@ -1,0 +1,13 @@
+<template>
+    <lightning-card>
+        <h3 slot="title">
+            <lightning-icon icon-name="action:new_note" class="slds-p-horizontal_x-small slds-m-right_xx-small"></lightning-icon>
+            {title}
+        </h3>
+        {content}
+        <p class="slds-p-horizontal_x-small"> Article by: {author}</p>
+        <div slot="footer">
+                <lightning-badge label={category}></lightning-badge>
+        </div>
+    </lightning-card> 
+</template>
