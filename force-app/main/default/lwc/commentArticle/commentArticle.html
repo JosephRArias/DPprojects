@@ -1,0 +1,23 @@
+<template>
+    <lightning-card title="Comments" icon-name="standard:case_comment">
+        <lightning-layout>
+            <lightning-layout-item padding="around-small">
+                <lightning-input-rich-text value={commentBody} onchange={handleChange}>
+                </lightning-input-rich-text>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout class="slds-border_bottom">
+            <lightning-layout-item padding="around-small" class="slds-float_right">
+                <lightning-button name="post" label="Post" variant="brand" onclick={handlePostComment}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <div class="slds-var-m-around_medium">
+            <template if:true={comments.data}>
+                <template for:each={comments.data} for:item="userComment">
+                    <c-user-comments class="slds-show slds-is-relative slds-border_bottom" key={userComment.Id}
+                        user-comment={userComment} onselect={handleSelect}></c-user-comments>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

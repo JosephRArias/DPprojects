@@ -19,9 +19,6 @@ export default class ViewArticle extends LightningElement {
     content;
     currentRecordId;
 
-    connectedCallback(){
-        console.log('Record ID:', this.recordId);
-    }
     @wire(getRecord, {recordId: '$recordId', fields: FIELDS})
     processRecordData({error, data}){
         if(data){

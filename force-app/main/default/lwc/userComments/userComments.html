@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Comments" icon-name="utility:comments">
+        <template if:true={userComment}>
+            <lightning-layout 
+              vertical-align="center"
+            >
+            <lightning-layout-item>
+                <img src={userComment.CreatedBy.SmallPhotoUrl} alt="Profile photo" />
+            </lightning-layout-item>
+    <lightning-layout-item padding="around-small">
+        <p>
+
+        <strong>{userComment.CreatedBy.Name}</strong>
+    </p>
+        <p><small>
+            <lightning-relative-date-time value={createdDate}></lightning-relative-date-time>
+        </small>
+    </p>
+    </lightning-layout-item>              
+                    
+</lightning-layout>
+                    <lightning-formatted-rich-text class="slds-var-m-bottom_medium" value={userComment.Comment_Body__c}></lightning-formatted-rich-text>
+        </template>
+    </lightning-card>
+</template>

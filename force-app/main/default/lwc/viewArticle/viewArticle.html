@@ -1,13 +1,22 @@
 <template>
     <lightning-card>
         <h3 slot="title">
-            <lightning-icon icon-name="action:new_note" class="slds-p-horizontal_x-small slds-m-right_xx-small"></lightning-icon>
+            <lightning-icon icon-name="action:new_note"
+                class="slds-p-horizontal_x-small slds-m-right_xx-small"></lightning-icon>
             {title}
         </h3>
-        {content}
+        <p class="slds-p-horizontal_x-small">
+            <lightning-formatted-rich-text value={content}></lightning-formatted-rich-text>
+        </p>
         <p class="slds-p-horizontal_x-small"> Article by: {author}</p>
-        <div slot="footer">
-                <lightning-badge label={category}></lightning-badge>
+        <div slot="actions">
+            <lightning-button-icon icon-name="utility:like" alternative-text="Like this post" name="Like button"
+                size="xx-medium" type="button" variant="container" onclick={handleArticleLike}></lightning-button-icon>
+            <lightning-button-icon icon-name="utility:share" alternative-text="Share" name="Like button"
+                size="xx-medium" type="button" variant="container" onclick={handleArticleShare}></lightning-button-icon>
         </div>
-    </lightning-card> 
+        <div slot="footer">
+            <lightning-badge class="slds-p-left_small slds-p-vertical_small" label={category}></lightning-badge>
+        </div>
+    </lightning-card>
 </template>
