@@ -1,0 +1,7 @@
+.c-container{
+    background-color: rgb(242 242 242);
+    display: flex;
+    align-items: center;  /* Vertical center */
+    justify-content: center; /* Horizontal center */
+    padding-bottom: 10px;
+}
